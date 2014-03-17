@@ -18,7 +18,7 @@ var Bumper = (function() {
 		(this.isGrowing ? grow : pulsate).call(this, dt);
 	};
 	
-	Bumper.prototype.mouseUp = function() {
+	Bumper.prototype.stopGrowth = function() {
 		this.isGrowing = false;
 	};
 	
