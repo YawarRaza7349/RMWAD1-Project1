@@ -3,10 +3,58 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Yawar Raza and Edward Finer's Rich Media Project 1</title>
+	<script src="scripts/shapes.js"></script>
+	<script src="scripts/Bumper.js"></script>
 </head>
 <body>
 	<canvas width="700" height="500">
 		Your browser does not support the <code>canvas</code> element.
 	</canvas>
 </body>
+<script>
+	var canvas, ctx, bumpers, CANVAS_WIDTH, CANVAS_HEIGHT, time;
+	
+	function init() {
+		canvas = document.querySelector("canvas");
+		ctx = canvas.getContext("2d");
+		bumpers = [];
+		CANVAS_WIDTH = 700;
+		CANVAS_HEIGHT = 500;
+		window.addEventListener("mousedown", mouseDown);
+		window.addEventListener("mouseup", mouseUp);
+		time = Date.now();
+		window.requestAnimationFrame(loop);
+	}
+	
+	function loop() {
+		var prevTime = time;
+		time = Date.now();
+		var dt = (time - prevTime) / 1000;
+		ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+		ctx.fillStyle = "black";
+		bumpers.forEach(function(b) {
+			b.update(dt);
+		});
+		bumpers.forEach(function(b) {
+			b.draw(ctx);
+		});
+		window.requestAnimationFrame(loop);
+	}
+	
+	function mouseDown(e) {
+		var x = e.clientX - canvas.offsetLeft;
+		var y = e.clientY - canvas.offsetTop;
+		bumpers.push(new Bumper(x, y, applyCircle));
+	}
+	
+	function mouseUp(e) {
+		var x = e.clientX - canvas.offsetLeft;
+		var y = e.clientY - canvas.offsetTop;
+		bumpers.forEach(function(b) {
+			b.mouseUp();
+		});
+	}
+	
+	window.addEventListener("load", init);
+</script>
 </html>
