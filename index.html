@@ -13,25 +13,29 @@
 	</canvas>
 </body>
 <script>
+	"use strict";
 	var canvas, ctx, bumpers, dots, time, CANVAS_WIDTH, CANVAS_HEIGHT, NUM_DOTS;
 	
+	// Returns the distance between two given points
 	function dist(x1, y1, x2, y2) {
 		var dx = x2 - x1;
 		var dy = y2 - y1;
 		return Math.sqrt(dx * dx + dy * dy);
 	}
 	
+	// Gets all objects in the scene that can collide with other objects
 	function getCollidables() {
 		return [].concat(bumpers, dots);
 	}
 	
+	// Initialize state and event listeners, and kicks off game loop
 	function init() {
 		canvas = document.querySelector("canvas");
 		ctx = canvas.getContext("2d");
 		bumpers = [];
 		dots = [];
-		CANVAS_WIDTH = 700;
-		CANVAS_HEIGHT = 500;
+		CANVAS_WIDTH = canvas.width;
+		CANVAS_HEIGHT = canvas.height;
 		NUM_DOTS = 20;
 		for(var i = 0; i < NUM_DOTS; ++i) {
 			dots.push(new Dot(Math.random() * CANVAS_WIDTH, Math.random() * CANVAS_HEIGHT, Math.random() * 50, Math.random() * 50, applyCircle));
@@ -42,6 +46,7 @@
 		window.requestAnimationFrame(loop);
 	}
 	
+	// Main game loop that runs every frame (as determined by Canvas)
 	function loop() {
 		var prevTime = time;
 		time = Date.now();
@@ -52,9 +57,8 @@
 		ctx.strokeStyle = "black";
 		bumpers.forEach(function(b) {
 			b.update(dt);
-			console.log(getCollidables());
 			if(getCollidables().some(function(c) {
-				return c.collide(b);
+				return c !== b && c.collide(b);
 			})) {
 				b.stopGrowth();
 			}
@@ -62,14 +66,18 @@
 		dots.forEach(function(d) {
 			d.update(dt);
 		});
-		dots.some(function(d) {
-			bumpers.forEach(function(b) {
+		dots.forEach(function(d) {
+			bumpers.some(function(b) {
 				if(d.collide(b)) {
-					d.reverse();
+					d.nudge(b);
+					d.reverse(); // TODO: Change me later to accurate non-shitty physics
 					return true;
 				}
 				return false;
 			});
+		});
+		dots.forEach(function(d) {
+			d.bounceWalls(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		});
 		bumpers.forEach(function(b) {
 			b.draw(ctx);
@@ -80,12 +88,14 @@
 		window.requestAnimationFrame(loop);
 	}
 	
+	// Event handler for the mouse down action
 	function mouseDown(e) {
 		var x = e.clientX - canvas.offsetLeft;
 		var y = e.clientY - canvas.offsetTop;
 		bumpers.push(new Bumper(x, y, applyCircle));
 	}
 	
+	// Event handler for the mouse up action
 	function mouseUp(e) {
 		var x = e.clientX - canvas.offsetLeft;
 		var y = e.clientY - canvas.offsetTop;
