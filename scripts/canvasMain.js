@@ -6,6 +6,19 @@ function dist(x1, y1, x2, y2) {
 	return Math.sqrt(dx * dx + dy * dy);
 }
 
+// Solves a quadratic equation; returns an array of solutions
+function quadratic(a, b, c) {
+	var epsilon = Math.min(a, b, c) / 1E6;
+	var discriminant = b * b - 4 * a * c;
+	if(discriminant < -epsilon) {
+		return [];
+	} else if (discriminant > epsilon) {
+		return [(-b + Math.sqrt(discriminant)) / a / 2, (-b - Math.sqrt(discriminant)) / a / 2];
+	} else {
+		return [-b / a / 2];
+	}
+}
+
 // Namespace for canvas-related code
 (function() {
 	var canvas, ctx, bumpers, dots, time, mouseHeld, pmouseX, pmouseY, mouseX, mouseY, drawingBuffer, DRAWING_WIDTH, SIMULATION_WIDTH, CANVAS_HEIGHT;
@@ -17,6 +30,14 @@ function dist(x1, y1, x2, y2) {
 	
 	// Initialize state and event listeners, and kicks off game loop
 	function init() {
+		ImageData.prototype.getPixelAt = function(x, y) {
+			return {
+				red: this.data[4 * (x + this.width * y)],
+				green: this.data[4 * (x + this.width * y) + 1],
+				blue: this.data[4 * (x + this.width * y) + 2],
+				alpha: this.data[4 * (x + this.width * y) + 3],
+			};
+		};
 		var INIT_NUM_DOTS = 20;
 		canvas = document.querySelector("canvas");
 		ctx = canvas.getContext("2d");
@@ -28,7 +49,7 @@ function dist(x1, y1, x2, y2) {
 		SIMULATION_WIDTH = canvas.width / 2;
 		CANVAS_HEIGHT = canvas.height;
 		for(var i = 0; i < INIT_NUM_DOTS; ++i) {
-			dots.push(new Dot(Math.random() * SIMULATION_WIDTH + DRAWING_WIDTH, Math.random() * CANVAS_HEIGHT, Math.random() * 50, Math.random() * 50, applyCircle));
+			dots.push(new Dot(Math.random() * SIMULATION_WIDTH + DRAWING_WIDTH, Math.random() * CANVAS_HEIGHT, Math.random(), Math.random(), applyCircle));
 		}
 		canvas.addEventListener("mousedown", mouseDown);
 		canvas.addEventListener("mouseup", mouseUp);
@@ -47,10 +68,12 @@ function dist(x1, y1, x2, y2) {
 		ctx.fillStyle = "white";
 		ctx.strokeStyle = "black";
 		
+		var drawingCanvas = ctx.getImageData(0, 0, DRAWING_WIDTH, CANVAS_HEIGHT);
+		
 		// Updates bumpers
 		bumpers.forEach(function(b) {
-			b.update(dt);
-			if(getCollidables().some(function(c) {
+			b.update(dt, drawingCanvas);
+			if(b.isGrowing && getCollidables().some(function(c) {
 				return c !== b && c.collide(b);
 			})) {
 				b.stopGrowth();
@@ -67,7 +90,7 @@ function dist(x1, y1, x2, y2) {
 			bumpers.some(function(b) {
 				if(d.collide(b)) {
 					d.nudge(b);
-					d.reverse(); // TODO: Change me later to accurate non-shitty physics
+					d.bounce(d.x - b.x, d.y - b.y);
 					return true;
 				}
 				return false;
@@ -110,6 +133,7 @@ function dist(x1, y1, x2, y2) {
 		dots.forEach(function(d) {
 			d.draw(ctx);
 		});
+		
 		window.requestAnimationFrame(loop);
 	}
 	
@@ -144,7 +168,9 @@ function dist(x1, y1, x2, y2) {
 	function mouseUp(e) {
 		mouseHeld = false;
 		bumpers.forEach(function(b) {
-			b.stopGrowth();
+			if(b.isGrowing) {
+				b.stopGrowth();
+			}
 		});
 	}
 	
