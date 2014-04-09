@@ -2,125 +2,124 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"/>
-	<title>Yawar Raza and Edward Finer's Rich Media Project 1</title>
-	<link href="http://fonts.googleapis.com/css?family=Patrick+Hand+SC" rel="stylesheet" type="text/css"/>
-	<link href="http://fonts.googleapis.com/css?family=Ceviche+One" rel="stylesheet" type="text/css"/>
-	<link href="http://fonts.googleapis.com/css?family=Balthazar" rel="stylesheet" type="text/css"/>
-	<style type="text/css">
+	<title>Yawar Raza's and Edward Finer's Initial Concept Document</title>
+	<link href="http://fonts.googleapis.com/css?family=Averia+Sans+Libre:700" rel="stylesheet" type="text/css"/>
+	<link href="http://fonts.googleapis.com/css?family=Scada:400italic,700italic,400,700" rel="stylesheet" type="text/css"/>
+	<style rel="stylesheet" type="text/css">
 		body {
-			margin: 0.5in;
+			font-family: Scada, sans-serif;
+			font-size: 12pt;
+			margin: 1em;
 		}
-		table#instructions {
-			font-family: "Patrick Hand SC", sans-serif;
-			font-size: 24px;
-			text-align: center;
+		body > header {
+			margin: 1em 0em;
 		}
-		table#widgets table th {
-			font-family: "Ceviche One", sans-serif;
-			font-size: 36px;
+		body > header #title {
+			font-family: 'Averia Sans Libre', sans-serif;
+			font-weight: bold;
+			font-size: 36pt;
 		}
-		table#widgets table td {
-			font-family: Balthazar, serif;
-			font-size: 18px;
-		}
-		table#widgets > tbody > tr > td {
-			vertical-align: top;
-		}
-		table#widgets > tbody > tr > td > table {
-			margin: 0 auto;
+		section > header .section_title {
+			font-weight: bold;
+			font-size: 18pt;
 		}
 	</style>
-	<script src="scripts/shapes.js"></script>
-	<script src="scripts/Bumper.js"></script>
-	<script src="scripts/Dot.js"></script>
-	<script src="scripts/controlsMain.js"></script>
-	<script src="scripts/canvasMain.js"></script>
 </head>
 <body>
-	<table id="instructions">
-		<tr>
-			<td width="700">Draw on this part of the canvas.</td>
-			<td width="700">Click and hold down on this part of the canvas to create bumpers.</td>
-		</tr>
-	</table>
-	<canvas width="1400" height="500">
-		Your browser does not support the <code>canvas</code> element.
-	</canvas>
-	<table id="widgets">
-		<tr>
-			<td width="700">
-				<table>
-					<tr>
-						<th colspan="3">Drawing Controls</th>
-					</tr>
-					<tr id="red">
-						<td>Red</td>
-						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="green">
-						<td>Green</td>
-						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="blue">
-						<td>Blue</td>
-						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="alpha">
-						<td>Alpha</td>
-						<td><input type="range" min="0" max="255" value="255" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="strokeWidth">
-						<td>Stroke Width</td>
-						<td><input type="number" value="2"/></td>
-					</tr>
-					<tr id="importImage">
-						<td>Paste Image from File</td>
-						<td><input type="file" accept="image/*"/></td>
-						<td>
-							<select>
-								<option id="keep" selected="1">Don't scale</option>
-								<option id="ratio">Scale to fit keeping ratio</option>
-								<option id="stretch">Scale and stretch to fit</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</td>
-			<td width="700">
-				<table>
-					<tr>
-						<th colspan="3">Simulation Controls</th>
-					</tr>
-					<tr id="dotSize">
-						<td>Dot Size</td>
-						<td><input type="range" min="5" max="50" value="10" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="dotSpeed">
-						<td>Dot Speed</td>
-						<td><input type="range" min="0" max="250" value="75" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="dotHue">
-						<td>Dot Hue Offset</td>
-						<td><input type="range" min="0" max="359" value="0" step="1"/></td>
-						<td></td>
-					</tr>
-					<tr id="colorSelection">
-						<td colspan="2">Color to sample from drawing canvas</td>
-						<td>
-							<input type="radio" name="colorFilter" value="red" checked="1"/>Red
-							<input type="radio" name="colorFilter" value="green"/>Green
-							<input type="radio" name="colorFilter" value="blue"/>Blue
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+	<header>
+		<div id="title">
+			<a href="experience.html">
+				Drawing + Bouncy Bumpers
+			</a>
+		</div>
+	</header>
+	<section id="description">
+		<header>
+			<div class="section_title">
+				Description
+			</div>
+		</header>
+		<p>
+			Our media experience will consist of a Canvas display split into two sides. The left side will be a drawing canvas, similar to our Drawing App ICE. The right side will be a box that has numerous bouncing particles. In addition, the user can click a location on the right side, and in doing so, creates a shape (henceforth known as a "bumper") at that location. Its size is proportional to how long the user clicks that location. When the user lets go, its size is set. The particles will then bounce off these bumpers when they collide. The bumpers can also pulsate, and the way they pulsate depends on what is drawn on the drawing canvas. The exact details have yet to be determined, but one idea is that the region on the drawing canvas corresponding to a bumper can have its pixels of each color counted, and that can be used to vary the pulsation of that bumper. We will use HTML widgets to control the visual style of the right side of the screen, as well as changing the shapes of the bumpers you create, and control the colors/pen size of the drawing app. HTML widgets could also control other aspects of the visual style of the drawing app, and the physics of the right side (speed of the particles, perhaps adding gravity, etc.).
+		</p>
+	</section>
+	<section id="inspirations">
+		<header>
+			<div class="section_title">
+				Inspirations
+			</div>
+		</header>
+		<p>
+			One inspiration is <a href="http://processing.org/examples/springs.html">this "springy" Processing example</a>. I know I've seen the "expands the longer you hold the mouse" idea in one or more places, but I don't remember exactly where. I think I've also seen a similar "bumper simulation" idea somewhere as well. The pulsating bumper idea actually came from originally thinking of how they could be synchronized with audio, but the drawing idea seemed easier to implement and more unique. The pulsating circles idea came from a link that showed a bunch of circles animating via various trig functions to the radius (the site had a light brown background, but I can't find the link again).
+		</p>
+	</section>
+	<section id="design">
+		<header>
+			<div class="section_title">
+				Design Decisions
+			</div>
+		</header>
+		<p>
+			We decided to go with a black background for the simulation because white on black (which we originally had) looked better for a simulation than vice versa, as well as letting us use black outlines to distinguish overlapping dots, which look better than the white outlines we'd use in the opposite situation. However, white makes more sense for a blank drawing slate, which is why the drawing canvas starts out white. This contrast also allows the user to easily see the dividing line between the drawing canvas and the simulation without having us use a separate line.
+		</p>
+		<p>
+			We wanted to use the correspondence of positions on the drawing canvas and the simulation to determine the pulsating function. We were going to analyze all the pixels that the bumper overlapped corresponding with the drawing canvas, but that was too computationally expensive and created a massive lag in the program, so we only use the pixel corresponding to the center of the bumper.
+		</p>
+	</section>
+	<section id="technical">
+		<header>
+			<div class="section_title">
+				Technical Decisions
+			</div>
+		</header>
+		<p>
+			We were going to have multiple different shapes that the user could choose from, and given that we wanted the collision detection to look accurate, this required multiple dispatch to choose a correct collision detection algorithm for two arbitrary shapes. We decided on the visitor pattern from classical OOP to do this. However, we didn't have time to implement any shapes other than circles.
+		</p>
+		<p>
+			We implemented shape information in a function that would be "call"ed on the bumpers and dots. We did this to make use of JavaScript features, as well as because it seemed to resemble traits, which is semantically what a shape would be. This approach does allow for encapsulation of behavior and data via closures to local functions in our "this." functions. However, this ended up having a disadvantage in that styling the drawing of the bumpers and dots leaked into the main canvas code rather than being cohesively in the Bumper/Dot class itself. This is because it is inconvenient to override a method created in this way while allowing the original implementation to be called within the new one. An easier way to accomplish this would be to use explicit delegation in the form of a "Circle" object that takes Bumpers/Dots as parameters, or a "Circle" object that we pass into the Bumpers/Dots and store, then "call" each method of the Circle object individually in separate methods within Bumper/Dot.
+		</p>
+	</section>
+	<section id="extras">
+		<header>
+			<div class="section_title">
+				Extras
+			</div>
+		</header>
+		<ul>
+			<li>
+				Use of the <a href="http://en.wikipedia.org/wiki/Visitor_pattern">visitor pattern</a> to implement the required multiple dispatch for collision detection between two arbitrary shapes.
+				<ul>
+					<li>
+						We didn't have time to actually implement multiple bounding shapes. However, using the visitor pattern allows us to easily add another shape which we want to collide with both circles and itself.
+					</li>
+				</ul>
+			</li>
+			<li>
+				A function whose sole purpose is to be "call"ed on objects to replicate a sort of trait/mixin construct, used to add shape-related properties and behavior to bumpers.
+			</li>
+			<li>
+				<a href="http://en.wikipedia.org/wiki/Immediately-invoked_function_expression">Immediate-invoked function expressions</a> used both as namespaces and for the encapsulation of properties and methods within a "class".
+			</li>
+			<li>
+				Used object URLs to allow the user to select an image from their file system and "paste" it into the drawing canvas.
+			</li>
+			<li>
+				Used ImageData to get information about the pixels on the canvas.
+			</li>
+		</ul>
+	</section>
+	<section id="screenshots">
+		<header>
+			<div class="section_title">
+				Screenshots
+			</div>
+		</header>
+		<a href="screenshot1.png">
+			<img src="screenshot1.png" height="300"/>
+		</a>
+		<a href="screenshot2.png">
+			<img src="screenshot2.png" height="300"/>
+		</a>
+	</section>
 </body>
 </html>

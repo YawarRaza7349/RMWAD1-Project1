@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>Yawar Raza and Edward Finer's Rich Media Project 1</title>
+	<link href="http://fonts.googleapis.com/css?family=Patrick+Hand+SC" rel="stylesheet" type="text/css"/>
+	<link href="http://fonts.googleapis.com/css?family=Ceviche+One" rel="stylesheet" type="text/css"/>
+	<link href="http://fonts.googleapis.com/css?family=Balthazar" rel="stylesheet" type="text/css"/>
+	<style type="text/css">
+		body {
+			margin: 0.5in;
+		}
+		table#instructions {
+			font-family: "Patrick Hand SC", sans-serif;
+			font-size: 24px;
+			text-align: center;
+		}
+		table#widgets table th {
+			font-family: "Ceviche One", sans-serif;
+			font-size: 36px;
+		}
+		table#widgets table td {
+			font-family: Balthazar, serif;
+			font-size: 18px;
+		}
+		table#widgets > tbody > tr > td {
+			vertical-align: top;
+		}
+		table#widgets > tbody > tr > td > table {
+			margin: 0 auto;
+		}
+	</style>
+	<script src="scripts/shapes.js"></script>
+	<script src="scripts/Bumper.js"></script>
+	<script src="scripts/Dot.js"></script>
+	<script src="scripts/controlsMain.js"></script>
+	<script src="scripts/canvasMain.js"></script>
+</head>
+<body>
+	<table id="instructions">
+		<tr>
+			<td width="700">Draw on this part of the canvas.</td>
+			<td width="700">Click and hold down on this part of the canvas to create bumpers.</td>
+		</tr>
+	</table>
+	<canvas width="1400" height="500">
+		Your browser does not support the <code>canvas</code> element.
+	</canvas>
+	<table id="widgets">
+		<tr>
+			<td width="700">
+				<table>
+					<tr>
+						<th colspan="3">Drawing Controls</th>
+					</tr>
+					<tr id="red">
+						<td>Red</td>
+						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="green">
+						<td>Green</td>
+						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="blue">
+						<td>Blue</td>
+						<td><input type="range" min="0" max="255" value="0" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="alpha">
+						<td>Alpha</td>
+						<td><input type="range" min="0" max="255" value="255" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="strokeWidth">
+						<td>Stroke Width</td>
+						<td><input type="number" value="2"/></td>
+					</tr>
+					<tr id="importImage">
+						<td>Paste Image from File</td>
+						<td><input type="file" accept="image/*"/></td>
+						<td>
+							<select>
+								<option id="keep" selected="1">Don't scale</option>
+								<option id="ratio">Scale to fit keeping ratio</option>
+								<option id="stretch">Scale and stretch to fit</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td width="700">
+				<table>
+					<tr>
+						<th colspan="3">Simulation Controls</th>
+					</tr>
+					<tr id="dotSize">
+						<td>Dot Size</td>
+						<td><input type="range" min="5" max="50" value="10" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="dotSpeed">
+						<td>Dot Speed</td>
+						<td><input type="range" min="0" max="250" value="75" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="dotHue">
+						<td>Dot Hue Offset</td>
+						<td><input type="range" min="0" max="359" value="0" step="1"/></td>
+						<td></td>
+					</tr>
+					<tr id="colorSelection">
+						<td colspan="2">Color to sample from drawing canvas</td>
+						<td>
+							<input type="radio" name="colorFilter" value="red" checked="1"/>Red
+							<input type="radio" name="colorFilter" value="green"/>Green
+							<input type="radio" name="colorFilter" value="blue"/>Blue
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
