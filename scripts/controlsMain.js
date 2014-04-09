@@ -1,5 +1,5 @@
 "use strict";
-var color, colorStr, strokeWidth, imageToPaste, imgSetting, dotSpeed, colorFilter;
+var color, colorStr, strokeWidth, imageToPaste, imgSetting, dotSize, dotSpeed, dotHueOffset, colorFilter;
 
 // Namespace for HTML control-related code
 (function() {
@@ -54,11 +54,25 @@ var color, colorStr, strokeWidth, imageToPaste, imgSetting, dotSpeed, colorFilte
 		});
 		
 		// Listener to update the speed of the dots
+		var dotSizeSlider = document.querySelector("tr#dotSize input");
+		dotSizeSlider.addEventListener("input", function() {
+			dotSize = parseInt(dotSizeSlider.value);
+		});
+		dotSize = parseInt(dotSizeSlider.value);
+		
+		// Listener to update the speed of the dots
 		var dotSpeedSlider = document.querySelector("tr#dotSpeed input");
 		dotSpeedSlider.addEventListener("input", function() {
 			dotSpeed = parseInt(dotSpeedSlider.value);
 		});
 		dotSpeed = parseInt(dotSpeedSlider.value);
+		
+		// Listener to update the speed of the dots
+		var dotHueSlider = document.querySelector("tr#dotHue input");
+		dotHueSlider.addEventListener("input", function() {
+			dotHueOffset = parseInt(dotHueSlider.value);
+		});
+		dotHueOffset = parseInt(dotHueSlider.value);
 		
 		// Listener to update which color filter mode we are using to adjust the pulsing speeds
 		Array.prototype.forEach.call(document.querySelectorAll("tr#colorSelection input"), function(radio) {

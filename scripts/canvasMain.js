@@ -125,13 +125,19 @@ function quadratic(a, b, c) {
 		}
 		
 		// Draws bumpers
+		ctx.save();
+		ctx.fillStyle = colorFilter;
 		bumpers.forEach(function(b) {
 			b.draw(ctx);
 		});
+		ctx.restore();
 		
 		// Draws dots
 		dots.forEach(function(d) {
+			ctx.save();
+			ctx.fillStyle = "hsl(" + Math.floor(180 * Math.atan2(d.velY, d.velX) / Math.PI + dotHueOffset) + ", 100%, 50%)";
 			d.draw(ctx);
+			ctx.restore();
 		});
 		
 		window.requestAnimationFrame(loop);

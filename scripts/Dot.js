@@ -1,8 +1,6 @@
 "use strict";
 // Dot module
 var Dot = (function() {
-	var DOT_SIZE = 10;
-	
 	// Creates a new dots that bounces around the screen
 	function Dot(x, y, velX, velY, shape) {
 		this.x = x;
@@ -10,7 +8,7 @@ var Dot = (function() {
 		var spd = Math.sqrt(velX * velX + velY * velY);
 		this.velX = velX / spd;
 		this.velY = velY / spd;
-		this.size = DOT_SIZE;
+		this.size = dotSize;
 		shape.call(this);
 	}
 	
@@ -18,6 +16,7 @@ var Dot = (function() {
 	Dot.prototype.update = function(dt) {
 		this.x += dt * this.velX * dotSpeed;
 		this.y += dt * this.velY * dotSpeed;
+		this.size = dotSize;
 	};
 	
 	// Bounces the dot, reflecting the velocity about a given axis normal to the collision
